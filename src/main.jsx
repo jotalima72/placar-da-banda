@@ -26,6 +26,7 @@ function App() {
     [message, setMessage] = useState(""),
     [solo, setSolo] = useState(null),
     [target, setTarget] = useState(""),
+    [otherTarget, setOtherTarget] = useState(""),
     [condition, setCondition] = useState("Distraído"),
     [draft, setDraft] = useState(() => structuredClone(s)),
     [undo, setUndo] = useState(null);
@@ -96,14 +97,17 @@ function App() {
   function result(value) {
     const m = s.members.find((x) => x.id === solo),
       inst = instruments[m.instrument];
-    if (!target.trim() && value !== "Falha") {
-      setMessage("Informe quem recebe o efeito.");
+    const targetName = target === "__other__"
+      ? otherTarget.trim()
+      : s.members.find((member) => member.id === target)?.name || "";
+    if (!targetName && value !== "Falha") {
+      setMessage("Selecione quem recebe o efeito ou informe o nome do outro alvo.");
       return;
     }
     const effect = {
       id: crypto.randomUUID(),
       source: m.name,
-      target: target.trim(),
+      target: targetName,
       text: `${inst[1]} · ${inst[3] === "condition" ? `${condition}${value === "Ampliação" ? " + Abalado" : ""}` : inst[3] === "instant" ? `Remove ${value === "Ampliação" ? "Distraído e Vulnerável" : condition}` : `${value === "Ampliação" ? "+3" : "+2"} · ${inst[2]}`}`,
       kind: inst[3] || "bonus",
     };
@@ -297,7 +301,10 @@ function App() {
                     disabled={!song || !!m.solo}
                     onClick={() => {
                       setSolo(m.id);
-                      setTarget(m.name);
+                      setTarget(m.instrument === 1 ? "__other__" : m.instrument === 0
+                        ? s.members.find((ally) => ally.id !== m.id)?.id || "__other__"
+                        : m.id);
+                      setOtherTarget("");
                       setCondition("Distraído");
                       setPanel("solo");
                     }}
@@ -656,13 +663,24 @@ function App() {
                 </p>
                 <label>
                   Alvo do efeito
-                  <input
-                    value={target}
-                    maxLength={80}
-                    onChange={(e) => setTarget(e.target.value)}
-                    list="targets"
-                  />
+                  <select value={target} onChange={(e) => setTarget(e.target.value)}>
+                    {s.members.find((member) => member.id === solo).instrument !== 1 &&
+                      s.members
+                        .filter((member) => s.members.find((musician) => musician.id === solo).instrument !== 0 || member.id !== solo)
+                        .map((member) => (
+                          <option key={member.id} value={member.id}>
+                            {member.name}{member.id === solo ? " (você)" : ""} · {instruments[member.instrument][0]}
+                          </option>
+                        ))}
+                    <option value="__other__">Outro alvo — informar nome</option>
+                  </select>
                 </label>
+                {target === "__other__" && (
+                  <label>
+                    Nome do alvo
+                    <input value={otherTarget} maxLength={80} onChange={(e) => setOtherTarget(e.target.value)} />
+                  </label>
+                )}
                 {instruments[
                   s.members.find((m) => m.id === solo).instrument
                 ][3] && (
@@ -677,11 +695,6 @@ function App() {
                     </select>
                   </label>
                 )}
-                <datalist id="targets">
-                  {s.members.map((m) => (
-                    <option key={m.id} value={m.name} />
-                  ))}
-                </datalist>
                 <p>
                   {
                     instruments[
