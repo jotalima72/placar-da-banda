@@ -150,24 +150,14 @@ function App() {
           if (!panel) opener.current = e.target.closest("button");
         }}
       >
-        <header>
-          <div className="brand">
-            ROCK <span>’N’ ROLL</span>
-            <br />
-            NEVER DIES
-          </div>
-          <div className="band">
-            <h1>{s.band}</h1>
-            <span>Placar de sessão</span>
-          </div>
-          <button aria-label="Abrir configuração da banda" onClick={openSetup}>
-            Configurar
-          </button>
-        </header>
         <section
           className={"now " + (song ? "playing" : "")}
           aria-label="Música ativa"
         >
+          <div className="band">
+            <h1>{s.band}</h1>
+            <span>Rock ’n’ Roll Never Dies</span>
+          </div>
           <div className="track">
             <span>{song ? "Música ativa" : "A banda está pronta"}</span>
             <h2>{song ? song.name : "O palco é de vocês."}</h2>
@@ -384,6 +374,9 @@ function App() {
             }}
           >
             Desfazer
+          </button>
+          <button className="quiet" aria-label="Abrir configuração da banda" onClick={openSetup}>
+            Configurar
           </button>
           <button className="quiet" onClick={exportFile}>
             Exportar
