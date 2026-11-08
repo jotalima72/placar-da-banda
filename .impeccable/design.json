@@ -1,0 +1,95 @@
+{
+  "verification": {
+    "method": "source-inspection",
+    "note": "Sem browser ou screenshots nesta etapa.",
+    "visualStatus": "pending",
+    "sources": [
+      "src/style.css",
+      "SURFACE.md",
+      "../PRODUCT.md"
+    ]
+  },
+  "title": "Design System: Placar da banda",
+  "generatedAt": "2026-11-08T20:12:10.5397002Z",
+  "narrative": {
+    "keyCharacteristics": [
+      "Superfícies planas",
+      "Números tabulares",
+      "Faixa escura de música com sinal vermelho"
+    ],
+    "dos": [
+      "Preserve a identidade do manual.",
+      "Mantenha foco visível e alinhamento das ações."
+    ],
+    "rules": [
+      {
+        "name": "Regra da herança",
+        "section": "colors",
+        "body": "Preserve os tokens do manual."
+      }
+    ],
+    "overview": "Preto de palco, creme, papel envelhecido e vermelho, com leitura coletiva e controles por toque.",
+    "donts": [
+      "Não use sombras como estrutura padrão.",
+      "Não declare aprovação visual apenas por inspeção do código."
+    ],
+    "northStar": "Placar de banda do manual"
+  },
+  "components": [
+    {
+      "kind": "button",
+      "html": "<button class=\"ds-primary\">Salvar</button>",
+      "css": ".ds-primary{font:700 14px Arial,Helvetica,sans-serif;min-height:44px;padding:9px 13px;border:1px solid var(--red,#a82f22);border-radius:4px;background:var(--red,#a82f22);color:#fff5e5;cursor:pointer;transition:background .15s ease-out}.ds-primary:hover:not(:disabled){background:#85281f}.ds-primary:focus-visible{outline:3px solid #a82f22;outline-offset:3px}.ds-primary:disabled{cursor:default;opacity:.5}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}",
+      "description": "Ação vermelha dos diálogos.",
+      "refersTo": "button-primary",
+      "name": "Ação principal"
+    }
+  ],
+  "extensions": {
+    "motion": [
+      {
+        "name": "button-background",
+        "purpose": "Resposta dos botões",
+        "value": "background .15s ease-out"
+      },
+      {
+        "name": "song-activate",
+        "purpose": "Seleção de música; de #653b2a para #a82f22",
+        "value": "activate .2s ease-out"
+      },
+      {
+        "name": "reduced-motion",
+        "purpose": "Aplicado com prefers-reduced-motion: reduce",
+        "value": "animation: none !important; transition: none !important"
+      }
+    ],
+    "breakpoints": [
+      {
+        "value": "1100px",
+        "name": "compact-width"
+      },
+      {
+        "value": "849px",
+        "name": "vertical-flow"
+      },
+      {
+        "name": "compact-height",
+        "condition": "min-width: 850px",
+        "value": "760px"
+      }
+    ],
+    "shadows": [
+      {
+        "name": "drawer",
+        "purpose": "Diálogos sobre o placar",
+        "value": "0 18px 65px #0006"
+      },
+      {
+        "name": "notice",
+        "purpose": "Aviso temporário",
+        "value": "0 8px 25px #0005"
+      }
+    ]
+  },
+  "schemaVersion": 2
+}
