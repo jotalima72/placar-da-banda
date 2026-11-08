@@ -160,17 +160,6 @@ function App() {
             <h1>{s.band}</h1>
             <span>Placar de sessão</span>
           </div>
-          <div className="counter">
-            <span>Cena</span>
-            <strong>{String(s.scene).padStart(2, "0")}</strong>
-          </div>
-          <div className="counter">
-            <span>Rodada</span>
-            <strong>{String(s.round).padStart(2, "0")}</strong>
-          </div>
-          <button onClick={() => commit({ ...s, round: s.round + 1 })}>
-            Próxima rodada
-          </button>
           <button aria-label="Abrir configuração da banda" onClick={openSetup}>
             Configurar
           </button>
@@ -741,7 +730,7 @@ function App() {
                     commit(
                       panel === "scene"
                         ? nextScene(s)
-                        : { ...nextScene(s), scene: 1, hymnUsed: false },
+                        : { ...nextScene(s), hymnUsed: false },
                     );
                     setPanel(null);
                   }}
@@ -771,7 +760,6 @@ function App() {
                       <button
                         className="primary"
                         disabled={
-                          s.activationRound === s.round ||
                           s.cohesion < 1 ||
                           (repeat && (!s.hasBis || s.bisUsed))
                         }
@@ -788,9 +776,7 @@ function App() {
                       {x.grade === 4 && (
                         <button
                           disabled={
-                            s.hymnUsed ||
-                            repeat ||
-                            s.activationRound === s.round
+                            s.hymnUsed || repeat
                           }
                           onClick={() =>
                             run(() => {
@@ -805,9 +791,7 @@ function App() {
                       )}
                     </div>
                     <p className="hint">
-                      {s.activationRound === s.round
-                        ? "Avance a rodada para ativar outra composição."
-                        : repeat
+                      {repeat
                           ? s.bisUsed
                             ? "Bis! já usado nesta cena."
                             : s.hasBis

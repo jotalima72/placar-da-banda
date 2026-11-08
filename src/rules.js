@@ -54,11 +54,8 @@ export const instruments = [
 export const initial = () => ({
   version: 1,
   band: "Sua banda",
-  scene: 1,
-  round: 1,
   cohesion: 3,
   active: null,
-  activationRound: null,
   played: [],
   bisUsed: false,
   hymnUsed: false,
@@ -87,8 +84,6 @@ export const initial = () => ({
 export function activate(state, id, { bis = false, free = false } = {}) {
   const song = state.songs.find((s) => s.id === id);
   if (!song) throw Error("Composição não encontrada.");
-  if (state.activationRound === state.round)
-    throw Error("A banda já ativou uma música nesta rodada.");
   const repeat = state.played.includes(id);
   if (repeat && (!bis || !state.hasBis || state.bisUsed))
     throw Error(
@@ -103,7 +98,6 @@ export function activate(state, id, { bis = false, free = false } = {}) {
   return {
     ...state,
     active: id,
-    activationRound: state.round,
     cohesion: state.cohesion - (free ? 0 : 1),
     played: [...new Set([...state.played, id])],
     bisUsed: state.bisUsed || repeat,
@@ -117,11 +111,8 @@ export function activate(state, id, { bis = false, free = false } = {}) {
 export function nextScene(s) {
   return {
     ...s,
-    scene: s.scene + 1,
-    round: 1,
-    active: null,
-    activationRound: null,
-    played: [],
+      active: null,
+      played: [],
     bisUsed: false,
     effects: [],
     members: s.members.map((m) => ({
@@ -137,10 +128,6 @@ export function validState(s) {
     s?.version === 1 &&
     typeof s.band === "string" &&
     s.band.length <= 80 &&
-    Number.isInteger(s.scene) &&
-    s.scene > 0 &&
-    Number.isInteger(s.round) &&
-    s.round > 0 &&
     Number.isInteger(s.cohesion) &&
     s.cohesion >= 0 &&
     s.cohesion <= 5 &&
