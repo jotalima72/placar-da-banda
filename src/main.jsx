@@ -210,7 +210,7 @@ function App() {
               <h2>Setlist</h2>
               <span>{s.songs.length} faixas</span>
             </div>
-            <div className="songs">
+            <div className="songs" tabIndex={0} role="region" aria-label="Lista do setlist">
               {s.songs.map((x, i) => (
                 <button
                   key={x.id}
@@ -258,7 +258,7 @@ function App() {
               <span>Ritmo</span>
               <span>Tentativa de Solo</span>
             </div>
-            <div className="members" style={{ "--count": s.members.length }}>
+            <div className="members" tabIndex={0} role="region" aria-label="Lista de integrantes" style={{ "--count": s.members.length }}>
               {s.members.map((m) => (
                 <article className="member" key={m.id}>
                   <div className="member-info">

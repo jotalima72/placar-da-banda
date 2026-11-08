@@ -1164,3 +1164,70 @@ header { flex-wrap: wrap; }
   .now .track { grid-column: 1 / -1; }
   .now .rhythm { grid-column: 1 / -1; grid-row: 3; max-width: none; }
 }
+/* The stage stays fixed; only the two rosters may scroll. */
+html, body, #root { height: 100%; overflow: hidden; }
+.board {
+  height: 100dvh;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  grid-template-areas: "now" "workspace" "effects" "footer";
+  overflow: hidden;
+}
+.now { grid-area: now; }
+.workspace {
+  grid-area: workspace;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+.setlist, .musicians {
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.setlist > .section-heading, .musicians > .section-heading,
+.table-head, .scene-actions { flex-shrink: 0; }
+.songs, .members {
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #653b2a #d8c4a3;
+  padding-right: 5px;
+}
+.song { flex-shrink: 0; }
+.scene-actions { margin-top: 0; }
+.effects { grid-area: effects; min-height: 0; }
+footer { grid-area: footer; }
+@media (min-width: 850px) {
+  .board {
+    grid-template-columns: minmax(0, 1fr) 240px;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "now now" "workspace effects" "footer footer";
+  }
+  .effects { border-top: 0; border-left: 1px solid var(--line); padding: 0 0 0 14px; }
+  .effect-list { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 849px) {
+  .workspace { grid-template-rows: minmax(0, .4fr) minmax(0, .6fr); gap: 12px; }
+  .songs { grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; }
+  .scene-actions p { display: none; }
+  .scene-actions { margin-top: 0; }
+  .effects { margin-top: 0; }
+  .effect-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .effect-list button { padding: 5px; }
+}
+/* Expanded setlists retain each composition's natural wrapped height. */
+.songs:has(> :nth-child(5)) {
+  grid-auto-rows: max-content;
+  align-content: start;
+}
+.songs:has(> :nth-child(5)) .song { min-height: max-content; }

@@ -84,9 +84,11 @@ Arial, Helvetica e sans-serif são a família de todo o placar. Títulos de seç
 
 ## Layout
 
-O painel tem altura mínima de 100dvh e cresce conforme o conteúdo, sem esmagar linhas. Largura máxima de 1800px e margens internas padrão de 18px 24px 10px. A barra superior reúne nome da banda, composição ativa, ritmo e Coesão em uma única faixa. Configurar e Exportar ficam juntos no rodapé. A área central combina setlist lateral e integrantes em grade; linhas respeitam a altura mínima do conteúdo. Efeitos usam grade com colunas automáticas de pelo menos 180px.
+O painel ocupa exatamente 100dvh, sem rolagem da página. Barra superior, títulos das listas, ações de cena/sessão, efeitos e rodapé permanecem estáticos. Somente `.songs` e `.members` têm rolagem vertical automática, com `min-height: 0`, `overscroll-behavior-y: contain` e barras com cores do manual. As duas listas são regiões nomeadas, alcançáveis pelo teclado.
 
-Em paisagem, entre 850 e 1400px de largura e até 900px de altura, os efeitos ocupam uma coluna própria de 240px ao lado da área central, preservando a altura dos músicos. Nesse modo o setlist ocupa 170px, controles individuais 76px e 84px e os demais espaços são flexíveis. Abaixo de 850px há fluxo vertical; abaixo de 500px as ações dos integrantes passam para uma linha própria. Com cinco ou mais composições, o setlist usa duas colunas. Conteúdo excepcionalmente longo pode expandir a página, mas nunca deve invadir outra linha. Não usar zoom, recorte de texto ou overflow oculto para simular cabimento.
+Em paisagem a partir de 850px, efeitos ocupam uma coluna fixa de 240px à direita. A área de trabalho usa `minmax(0, 1fr)` para conter o excesso dentro das listas. Os itens preservam sua altura de conteúdo; não encolher texto ou botões para simular cabimento. Com mais de quatro músicas, as linhas do setlist usam altura natural em duas colunas. Os botões Encerrar cena e Nova sessão ficam fora da área rolável. Diálogos de configuração mantêm sua própria rolagem interna.
+
+Conferido no navegador em 1024 × 600 e 1024 × 450, com seis integrantes e oito músicas: apenas as listas transbordam, sem mover a página nem o rodapé.
 
 ## Elevation & Depth
 
