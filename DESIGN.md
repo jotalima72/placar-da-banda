@@ -64,7 +64,7 @@ components:
 - Linhas, alinhamento tabular e superfícies planas para organizar informação densa.
 - Arial/Helvetica e números tabulares nos contadores.
 
-Documentação extraída do código, PRODUCT.md e SURFACE.md. Não houve inspeção visual nesta etapa; a conferência visual permanece pendente.
+Documentação extraída do código, PRODUCT.md e SURFACE.md. Revisão responsiva de 08/11/2026: cenário com quatro integrantes, três músicas e quatro efeitos de Solo conferido no navegador a 100% em 1024 × 600 e 960 × 600, sem sobreposição e sem rolagem da página. Não é uma medição física do tablet.
 
 ## Colors
 
@@ -84,9 +84,9 @@ Arial, Helvetica e sans-serif são a família de todo o placar. Títulos de seç
 
 ## Layout
 
-O painel horizontal ocupa 100dvh, tem largura máxima de 1800px e margens internas de 18px 24px 10px. A área central combina setlist lateral e integrantes em grade; colunas de ação mantêm alinhamento vertical. Efeitos são uma grade de três colunas sem rolagem horizontal.
+O painel tem altura mínima de 100dvh e cresce conforme o conteúdo, sem esmagar linhas. Largura máxima de 1800px e margens internas padrão de 18px 24px 10px. A área central combina setlist lateral e integrantes em grade; linhas respeitam a altura mínima do conteúdo. Efeitos usam grade com colunas automáticas de pelo menos 180px.
 
-Até 1100px, espaçamento e tipografia ficam mais compactos. Abaixo de 850px, o painel vira fluxo vertical, setlist usa três colunas e efeitos duas. Alturas até 760px recebem tratamento compacto no modo horizontal. Com cinco ou mais composições, a setlist usa duas colunas. A ausência de rolagem no tablet é intenção de produto, ainda sem certificação visual em dispositivo.
+Em paisagem, entre 850 e 1400px de largura e até 900px de altura, os efeitos ocupam uma coluna própria de 240px ao lado da área central, preservando a altura dos músicos. Nesse modo o setlist ocupa 170px, controles individuais 76px e 84px e os demais espaços são flexíveis. Abaixo de 850px há fluxo vertical; abaixo de 500px as ações dos integrantes passam para uma linha própria. Com cinco ou mais composições, o setlist usa duas colunas. Conteúdo excepcionalmente longo pode expandir a página, mas nunca deve invadir outra linha. Não usar zoom, recorte de texto ou overflow oculto para simular cabimento.
 
 ## Elevation & Depth
 

@@ -25,7 +25,7 @@ Importe este diretório como projeto. Se o repositório contiver também o manua
 
 O estado é salvo no navegador deste aparelho. Não existe sincronização entre tablets. No Embalo exige descontar o Bene na ficha e só deve ser usado por quem tem a Vantagem. O aplicativo controla o uso, sem automatizar a ficha individual.
 
-Em tablet horizontal com 4 integrantes e 3 músicas, a composição principal foi dimensionada para uma tela. Bandas com muitos integrantes, textos longos, setlists extensos ou telas pequenas podem precisar de mais espaço. Na vertical o layout permite rolagem para manter a leitura.
+No modo horizontal compacto, os efeitos aparecem numa coluna à direita, sem reduzir a altura das linhas dos integrantes. O cenário com 4 integrantes, 3 músicas e 4 efeitos foi conferido em 960 × 600 e 1024 × 600 a 100%, sem sobreposição nem rolagem. Conteúdo maior pode expandir a página para preservar a leitura. Na vertical o layout usa rolagem. Não é necessário diminuir o zoom do navegador.
 
 ## Verificação
 

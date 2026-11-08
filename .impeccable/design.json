@@ -91,5 +91,50 @@
       }
     ]
   },
-  "schemaVersion": 2
+  "schemaVersion": 2,
+  "responsiveVerification": {
+    "date": "2026-11-08",
+    "scenario": {
+      "members": 4,
+      "songs": 3,
+      "pendingSoloEffects": 4
+    },
+    "landscape": [
+      {
+        "width": 960,
+        "height": 600,
+        "overlap": false,
+        "pageScroll": false
+      },
+      {
+        "width": 1024,
+        "height": 600,
+        "overlap": false,
+        "pageScroll": false
+      },
+      {
+        "width": 1280,
+        "height": 720,
+        "overlap": false,
+        "pageScroll": false
+      }
+    ],
+    "portrait": {
+      "width": 768,
+      "height": 1024,
+      "overlap": false,
+      "verticalScroll": true
+    },
+    "method": "Browser viewport at default zoom; not physical tablet testing",
+    "screenshot": "tablet-1024x600.jpg"
+  },
+  "compactLandscape": {
+    "minWidth": 850,
+    "maxWidth": 1400,
+    "maxHeight": 900,
+    "effectRailWidth": 240,
+    "setlistWidth": 170,
+    "rowGap": 8,
+    "minimumRowSize": "min-content"
+  }
 }
