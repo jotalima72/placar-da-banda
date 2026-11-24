@@ -3,6 +3,9 @@ import { createRoot } from "react-dom/client";
 import {
   rhythms,
   instruments,
+  MAX_MEMBERS,
+  soloRule,
+  soloTargets,
   initial,
   activate,
   nextScene,
@@ -64,7 +67,9 @@ function App() {
     };
   }, [panel]);
   const song = s.songs.find((x) => x.id === s.active),
-    rhythm = song && rhythms[song.rhythm];
+    rhythm = song && rhythms[song.rhythm],
+    soloMember = s.members.find((m) => m.id === solo),
+    soloDetails = soloMember && soloRule(soloMember.instrument);
   function commit(n) {
     setUndo(s);
     setS(n);
@@ -102,6 +107,11 @@ function App() {
       : s.members.find((member) => member.id === target)?.name || "";
     if (!targetName && value !== "Falha") {
       setMessage("Selecione quem recebe o efeito ou informe o nome do outro alvo.");
+      return;
+    }
+    if (value !== "Falha" && target !== "__other__" &&
+        !soloTargets(s.members, m).some((member) => member.id === target)) {
+      setMessage("Selecione um alvo permitido para este Solo.");
       return;
     }
     const effect = {
@@ -258,7 +268,7 @@ function App() {
               <span>Solo: 1 tentativa por cena</span>
             </div>
             <div className="table-head">
-              <span>Músico / Solo</span>
+              <span>Integrante / Solo</span>
               <span>Ritmo</span>
               <span>Tentativa de Solo</span>
             </div>
@@ -301,9 +311,8 @@ function App() {
                     disabled={!song || !!m.solo}
                     onClick={() => {
                       setSolo(m.id);
-                      setTarget(m.instrument === 1 ? "__other__" : m.instrument === 0
-                        ? s.members.find((ally) => ally.id !== m.id)?.id || "__other__"
-                        : m.id);
+                      setTarget(soloRule(m.instrument).target === "selfOrAlly"
+                        ? m.id : soloTargets(s.members, m)[0]?.id || "__other__");
                       setOtherTarget("");
                       setCondition("Distraído");
                       setPanel("solo");
@@ -440,7 +449,7 @@ function App() {
                   />
                 </label>
                 <h3>
-                  Integrantes <small>até 6 no placar</small>
+                  Integrantes <small>até {MAX_MEMBERS} no placar</small>
                 </h3>
                 {draft.members.map((m, i) => (
                   <div className="edit-row" key={m.id}>
@@ -458,7 +467,7 @@ function App() {
                       }
                     />
                     <select
-                      aria-label={`Instrumento de ${m.name}`}
+                      aria-label={`Instrumento ou função de ${m.name}`}
                       value={m.instrument}
                       onChange={(e) =>
                         setDraft({
@@ -471,10 +480,12 @@ function App() {
                         })
                       }
                     >
-                      {instruments.map((x, j) => (
-                        <option value={j} key={j}>
-                          {x[0]}
-                        </option>
+                      {[false, true].map((backstage) => (
+                        <optgroup key={String(backstage)} label={backstage ? "Bastidores" : "Palco"}>
+                          {instruments.map((x, j) => soloRule(j).backstage === backstage && (
+                            <option value={j} key={j}>{x[0]}</option>
+                          ))}
+                        </optgroup>
                       ))}
                     </select>
                     <button
@@ -491,7 +502,7 @@ function App() {
                   </div>
                 ))}
                 <button
-                  disabled={draft.members.length === 6}
+                  disabled={draft.members.length >= MAX_MEMBERS}
                   onClick={() =>
                     setDraft({
                       ...draft,
@@ -658,16 +669,14 @@ function App() {
                   }
                 </h2>
                 <p>
-                  Uma ação e Atuação contra 4; Guitarra solo usa Atuação
-                  resistida por Espírito. A falha também gasta a tentativa.
+                  Uma ação e {soloDetails.skill}{soloDetails.resistance
+                    ? ` resistida por ${soloDetails.resistance}` : " contra 4"}.
+                  {" "}A falha também gasta a tentativa.
                 </p>
                 <label>
                   Alvo do efeito
                   <select value={target} onChange={(e) => setTarget(e.target.value)}>
-                    {s.members.find((member) => member.id === solo).instrument !== 1 &&
-                      s.members
-                        .filter((member) => s.members.find((musician) => musician.id === solo).instrument !== 0 || member.id !== solo)
-                        .map((member) => (
+                    {soloTargets(s.members, soloMember).map((member) => (
                           <option key={member.id} value={member.id}>
                             {member.name}{member.id === solo ? " (você)" : ""} · {instruments[member.instrument][0]}
                           </option>

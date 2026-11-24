@@ -15,7 +15,8 @@ Importe este diretório como projeto. Se o repositório contiver também o manua
 
 ## Usar
 
-- Configure integrantes (até 6), instrumento principal e setlist (até 8).
+- Configure integrantes (até 15), instrumento ou função principal e setlist (até 8).
+- As funções ficam agrupadas em Palco e Bastidores: assistente técnico, segurança, produtor iniciante, motorista, agente/divulgação, iluminador/cenógrafo e fã nº 1. Cada Solo informa a perícia apropriada e restringe os alvos conforme o manual. Placares antigos continuam compatíveis.
 - Selecione uma faixa e ative pagando Coesão, ou use o Hino gratuito quando disponível.
 - Cada integrante marca seu benefício de ritmo separadamente. Ritmos imediatos são registrados como aplicados.
 - Registre Falha, Sucesso ou Ampliação de Solo e seu alvo. A tentativa é consumida em todos os resultados.

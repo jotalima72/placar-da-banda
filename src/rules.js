@@ -51,6 +51,39 @@ export const instruments = [
   ["Percussão", "Ritmo Interior", "Próxima rolagem de Espírito."],
   ["Harmônica", "Lamento da Estrada", "Próxima rolagem de Sobrevivência."],
 ];
+// Os índices existentes são mantidos para preservar placares salvos.
+instruments.push(
+  ["Assistente técnico", "Ajuste de Emergência", "Um aliado: próxima rolagem de Consertar envolvendo equipamentos."],
+  ["Segurança", "Abre Caminho", "Um aliado: próxima rolagem de Atletismo para escapar, atravessar passagem obstruída ou retirar alguém de perigo."],
+  ["Produtor iniciante", "Direção Artística", "Um aliado: próxima rolagem de Atuação para composição ou execução musical."],
+  ["Motorista", "Rota de Saída", "Você ou um aliado: próxima rolagem de Dirigir."],
+  ["Agente / divulgação", "Contato Certo", "Um aliado: próxima rolagem de Persuasão numa interação profissional. Não cria contatos nem garante acesso."],
+  ["Iluminador / cenógrafo", "Foco Dramático", "Consertar × Astúcia, com distração plausível: Distraído ou Vulnerável; com ampliação, também Abalado.", "condition"],
+  ["Fã nº 1", "Força da Torcida", "Um aliado: próxima rolagem de Espírito para recuperar-se de Abalado ou resistir a Medo."],
+);
+export const MAX_MEMBERS = 15;
+const backstage = {
+  "Assistente técnico": ["Consertar", "ally"],
+  "Segurança": ["Atletismo", "ally"],
+  "Produtor iniciante": ["Persuasão", "ally"],
+  "Motorista": ["Dirigir", "selfOrAlly"],
+  "Agente / divulgação": ["Persuasão", "ally"],
+  "Iluminador / cenógrafo": ["Consertar", "opponent", "Astúcia"],
+  "Fã nº 1": ["Persuasão", "ally"],
+};
+export function soloRule(index) {
+  const name = instruments[index]?.[0];
+  const [skill, target, resistance] = backstage[name] ||
+    (name === "Vocal" ? ["Atuação", "ally"] :
+     name === "Guitarra solo" ? ["Atuação", "opponent", "Espírito"] :
+     ["Atuação", "selfOrAlly"]);
+  return { skill, target, resistance, backstage: !!backstage[name] };
+}
+export function soloTargets(members, actor) {
+  const rule = soloRule(actor.instrument);
+  return rule.target === "opponent" ? [] :
+    members.filter(member => rule.target !== "ally" || member.id !== actor.id);
+}
 export const initial = () => ({
   version: 1,
   band: "Sua banda",
@@ -133,7 +166,7 @@ export function validState(s) {
     s.cohesion <= 5 &&
     Array.isArray(s.members) &&
     s.members.length >= 1 &&
-    s.members.length <= 6 &&
+    s.members.length <= MAX_MEMBERS &&
     Array.isArray(s.songs) &&
     s.songs.length >= 1 &&
     s.songs.length <= 8 &&
